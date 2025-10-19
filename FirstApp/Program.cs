@@ -9,12 +9,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger(); // generate swagger JSON
 app.UseSwaggerUI(); // interactive UI
 app.MapControllers();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:52693", "https://localhost:52693"));
 app.Run();
