@@ -5,10 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": "C#: API Debug",
+            "type": "dotnet",
             "request": "launch",
-            "name": "Open app.html",
-            "file": "c:\\Users\\khali\\OneDrive\\Desktop\\final\\FirstApp\\client\\src\\app\\app.html"
-        }
+            "projectPath": "${workspaceFolder}/API/API.csproj"
+        },
+
+
+        
     ]
 }
