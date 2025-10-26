@@ -38,5 +38,5 @@ app.UseSwaggerUI(); // interactive UI
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:52693", "https://localhost:52693"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.Run();
