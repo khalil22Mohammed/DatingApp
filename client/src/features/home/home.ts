@@ -4,6 +4,7 @@ import { User } from '../../types/user';
 
 @Component({
 	selector: 'app-home',
+	standalone: true,
 	imports: [ Register ],
 	templateUrl: './home.html',
 	styleUrl: './home.css'

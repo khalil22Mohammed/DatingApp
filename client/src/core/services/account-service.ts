@@ -10,6 +10,17 @@ export class AccountService {
 	private http = inject(HttpClient);
 	currentUser = signal<User | null>(null);
 	baseUrl: string = 'https://localhost:5001/api/';
+
+  constructor() {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      try {
+        this.currentUser.set(JSON.parse(userString));
+      } catch {
+        
+      }
+    }
+  }
 	register(cards: RegisterCreds) {
 		return this.http.post<User>(this.baseUrl + 'account/register', cards).pipe(
 			tap((user) => {
