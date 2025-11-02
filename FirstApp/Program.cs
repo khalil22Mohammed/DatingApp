@@ -1,5 +1,7 @@
 using FirstApp.Data;
+using FirstApp.Entities;
 using FirstApp.Interfaces;
+using FirstApp.Migrations;
 using FirstApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,20 @@ app.UseSwagger(); // generate swagger JSON
 app.UseSwaggerUI(); // interactive UI
 app.MapControllers();
 app.UseAuthentication();
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthorization();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<AppDbContext>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedUsers(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
+}
 app.Run();

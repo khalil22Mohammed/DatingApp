@@ -7,5 +7,9 @@ namespace FirstApp.Data
 
     {
         public DbSet<AppUser> Users { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+        public DbSet<photo> Photos { get; set; }
     }
 }
