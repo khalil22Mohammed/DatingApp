@@ -2,7 +2,7 @@
 {
     public class AppUser
     {
-        public string ID { get; set; } = Guid.NewGuid().ToString();
+        public string ID { get; set; } = string.Empty;
         public required string DisplayName { get; set; }
         public required string Email { get; set; }
         public  string? ImageUrl { get; set; }

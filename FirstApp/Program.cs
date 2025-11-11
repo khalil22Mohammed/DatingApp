@@ -13,9 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sql =>
+        {
+            sql.EnableRetryOnFailure(3);
+        })
+        .EnableSensitiveDataLogging()
+        .LogTo(Console.WriteLine)
+);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ItokenService,TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -37,11 +45,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger(); // generate swagger JSON
 app.UseSwaggerUI(); // interactive UI
-app.MapControllers();
-app.UseAuthentication();
+
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseAuthorization();
+
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try

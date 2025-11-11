@@ -1,2 +1,8 @@
-<p>member-list works!</p>
+<div class="grid grid-cols-3 gap-4">
+ @for (member of members$ |async; track member.id) {
 
+    <app-member-card [member]="member" />
+ }
+  
+
+</div>

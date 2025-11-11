@@ -20,10 +20,12 @@ namespace FirstApp.Entities
                 Console.WriteLine("No member data found to seed.");
                 return;
             }
-            using var hmac = new HMACSHA512();
+            
 
             foreach (var member in members)
+                
             {
+                using var hmac = new HMACSHA512();
                 var user = new AppUser
                 {
                     ID = member.Id,
@@ -47,7 +49,7 @@ namespace FirstApp.Entities
                     }
                 };
 
-                user.Member.Photos.Add(new photo
+                user.Member.Photos.Add(new Photo
                 {
                     Url = member.ImageUrl !,
 

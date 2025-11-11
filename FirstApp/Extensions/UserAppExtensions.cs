@@ -16,6 +16,7 @@ namespace FirstApp.Extensions
                 DisplayName = user.DisplayName,
                 Email = user.Email,
                 Id = user.ID,
+                ImageUrl = user.ImageUrl,
                 token = itokenService.CreateToken(user)
             };
         }   

@@ -23,9 +23,9 @@ namespace FirstApp.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenkey));
 
             var Claims = new List<Claim>
-            {   new (ClaimTypes.NameIdentifier, user.ID),
-                new (ClaimTypes.Email, user.Email),
-                
+            {
+                new(ClaimTypes.NameIdentifier, user.ID),
+                new(ClaimTypes.Email, user.Email),
             };
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor

@@ -2,7 +2,7 @@
 {
     public class SeedUserDto
     {
-        public required string Id { get; set; } 
+        public string Id { get; set; } = string.Empty; 
         public required string Email { get; set; }
         public required string DisplayName { get; set; }
         public string? ImageUrl { get; set; }

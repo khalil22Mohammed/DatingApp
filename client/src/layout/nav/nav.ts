@@ -3,20 +3,32 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../core/services/account-service';
 import { Result } from 'postcss';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ToastService } from '../../core/services/toast-service';
+import { ToastService } from '../../core/services/toast.service';
+import { themes } from '../themes';
 
 @Component({
 	selector: 'app-nav',
 	standalone: true,
-	imports: [ FormsModule, RouterLink, RouterLinkActive ],
+	imports: [FormsModule, RouterLink, RouterLinkActive],
 	templateUrl: './nav.html',
-	styleUrls: [ './nav.css' ]
+	styleUrls: ['./nav.css']
 })
 export class Nav implements OnInit {
 	protected accountServies = inject(AccountService);
 	private toast = inject(ToastService);
 	private router = inject(Router);
 	protected cards: any = {};
+	protected selectedThemes = signal<string>(localStorage.getItem('theme') || 'light');
+	protected themes = themes;
+
+
+	handleSelecttheme(theme: string) {
+		this.selectedThemes.set(theme);
+		localStorage.setItem('theme', theme);
+		document.documentElement.setAttribute('data-theme', theme);
+		const elem = document.activeElement as HTMLDivElement;
+		if (elem) elem.blur();
+	}
 
 	ngOnInit(): void {
 		if (!this.accountServies.currentUser()) {
@@ -24,9 +36,11 @@ export class Nav implements OnInit {
 			if (userString) {
 				try {
 					this.accountServies.currentUser.set(JSON.parse(userString));
-				} catch {}
+				} catch { }
 			}
 		}
+
+		document.documentElement.setAttribute('data-theme', this.selectedThemes());
 	}
 
 	login() {

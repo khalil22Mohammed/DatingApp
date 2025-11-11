@@ -24,7 +24,7 @@ namespace FirstApp.Controllers
                 DisplayName = registerDTO.DisplayName,
                 Email = registerDTO.Email,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-                PasswordSalt =hmac.Key
+                PasswordSalt = hmac.Key
 
             };
             context.Users.Add(user);
@@ -42,16 +42,16 @@ namespace FirstApp.Controllers
 
             using var hmac = new HMACSHA512(User.PasswordSalt);
 
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.password));
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
 
-            for(var i =0;i < computedHash.Length; i++)
+            for (var i = 0; i < computedHash.Length; i++)
             {
 
                 if (computedHash[i] != User.PasswordHash[i]) return Unauthorized("Invalid password");
             }
             return User.ToDto(itokenService); 
         }   
-        private async Task<bool>EmailExists(string email)
+        private async Task<bool> EmailExists(string email)
         {
             return await context.Users.AnyAsync(x => x.Email.ToLower() == email.ToLower());
 
